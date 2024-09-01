@@ -1,0 +1,21 @@
+#!/bin/bash
+
+for book in [12345]-*; do
+    pushd "$book" >/dev/null
+    printf " * Reading book $(pwd | basename)\n"
+    for verse in $(ls | sort); do
+        pushd "$verse" >/dev/null
+            printf "  * Reading verse $(pwd | basename)"
+            if [[ -d clips ]]; then
+                # To have each verse directory's video have the proper name
+                # name="$(pwd | sed -e 's@.*eye-of-the-tiger/@@' -e 's@/$@@' -e 's@/@-@')"
+                # ffmpeg-cat -o "${name}.mkv" $(find clips -type f -name "*.mkv" | sort)
+                #
+                # To have each verse directory's video be called video.mkv so
+                # we can exclude build artifacts from the git history.
+                ffmpeg-cat -o "video.mkv" $(find clips -type f -name "*.mkv" | sort)
+            fi
+        popd >/dev/null
+    done
+    popd >/dev/null
+done
