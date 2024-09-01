@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# add bin scripts to path so we can find ffmpeg-cat below
+PATH="$PWD/bin:$PATH"
+
+# build the books
 for book in [12345]-*; do
     pushd "$book" >/dev/null
     printf " * Reading book $(pwd | basename)\n"
